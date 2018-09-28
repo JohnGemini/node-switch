@@ -33,5 +33,5 @@ RUN yum makecache fast && \
     rm -rf /var/cache/yum && \
     rm -rf /tmp/*
 
-VOLUME ["/etc/slurm", "/etc/hosts", "/var/run/munge"]
+VOLUME /etc/slurm
 CMD ["python", "unschedule.py"]
