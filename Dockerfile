@@ -27,9 +27,11 @@ RUN yum makecache fast && \
     install -D -m644 contribs/slurm_completion_help/slurm_completion.sh /etc/profile.d/slurm_completion.sh && \
     popd && \
     rm -rf slurm-17.11.7 && \
+    groupadd -r slurm --gid=202 && \
+    useradd -r -g slurm --uid=202 slurm && \
     yum clean all && \
     rm -rf /var/cache/yum && \
     rm -rf /tmp/*
 
-VOLUME /etc/slurm
+VOLUME ["/etc/slurm", "/etc/hosts", "/var/run/munge"]
 CMD ["python", "unschedule.py"]
