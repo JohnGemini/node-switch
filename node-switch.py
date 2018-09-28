@@ -3,6 +3,7 @@ import requests
 import os
 import sys
 import json
+from subprocess import Popen, PIPE
 
 
 requests.packages.urllib3.disable_warnings()
@@ -33,3 +34,12 @@ if __name__ == '__main__':
     if node_data:
         node_data['spec']['unschedulable'] = False
         do_request(req, 'patch', url, json.dumps(node_data))
+
+    # Resume the node for Slurm
+    command = 'scontrol update NodeName=%s State=RESUME' % node_name
+    p = Popen(command, stdout=PIPE, stderr=PIPE, shell=True)
+    stdout, stderr = p.communicate()
+    if stdout:
+        sys.stdout.write(stdout)
+    if stderr:
+        sys.stderr.write(stderr)

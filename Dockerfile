@@ -1,5 +1,5 @@
 FROM centos:7
-COPY unschedule.py /root/unschedule.py
+COPY node-switch.py /root/node-switch.py
 ADD slurm-17.11.7.tar.gz /root/
 WORKDIR /root
 RUN yum makecache fast && \
@@ -18,7 +18,7 @@ RUN yum makecache fast && \
     yum install -y python-pip && \
     yum install -y munge && \
     yum install -y munge-devel && \
-    pip install --no-cache-dir Cython nose && \
+    pip install --no-cache-dir Cython nose requests && \
     pushd slurm-17.11.7 && \
     ./configure --enable-debug --prefix=/usr \
     --sysconfdir=/etc/slurm \
@@ -34,4 +34,4 @@ RUN yum makecache fast && \
     rm -rf /tmp/*
 
 VOLUME /etc/slurm
-CMD ["python", "unschedule.py"]
+CMD ["python", "node-switch.py"]
