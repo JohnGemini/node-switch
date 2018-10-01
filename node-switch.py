@@ -30,10 +30,7 @@ if __name__ == '__main__':
     req.headers.update({'Authorization': 'Bearer %s' % token,
                         'Content-Type': 'application/merge-patch+json'})
     req.verify = False
-    node_data = do_request(req, 'get', url)
-    if node_data:
-        node_data['spec']['unschedulable'] = False
-        do_request(req, 'patch', url, json.dumps(node_data))
+    do_request(req, 'patch', url, '{"spec": {"unschedulable": true}}')
 
     # Resume the node for Slurm
     command = 'scontrol update NodeName=%s State=RESUME' % node_name
