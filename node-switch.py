@@ -17,7 +17,7 @@ def do_request(req, method, url, data=None):
         else:
             sys.stderr.write(res.text)
     except Exception as e:
-        sys.stderr.write(e)
+        sys.stderr.write(str(e))
 
 
 if __name__ == '__main__':
